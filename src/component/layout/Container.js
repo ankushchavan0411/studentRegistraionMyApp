@@ -5,10 +5,10 @@ import TopHeader from "./Header";
 
 const { Sider, Content } = Layout;
 
-export const Container = () => {
+export const Container = ({ children }) => {
   const [collapsed, setCollapsed] = useState(false);
   return (
-    <Layout>
+    <Layout style={{ height: "100%" }}>
       <Sider trigger={null} collapsible collapsed={collapsed}>
         <div className="logo" />
         <Menu />
@@ -23,7 +23,7 @@ export const Container = () => {
             minHeight: 280,
           }}
         >
-          Content
+          {children}
         </Content>
       </Layout>
     </Layout>
