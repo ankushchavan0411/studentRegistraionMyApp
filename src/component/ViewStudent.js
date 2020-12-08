@@ -1,5 +1,87 @@
-import React from "react";
+/* eslint-disable jsx-a11y/anchor-is-valid */
+import React, { useEffect } from "react";
+import Table from "./common/Table";
+import Avatar from "./common/Avatar";
+import { Divider, Popconfirm } from "antd";
+import { useSelector, useDispatch } from "react-redux";
+import { getStudents } from "../redux/Action/Student";
 
 export const ViewStudent = () => {
-  return <div>View Student</div>;
+  const { sutdList } = useSelector(({ Student }) => Student);
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    dispatch(getStudents());
+  }, []);
+
+  const columns = [
+    {
+      title: "ID",
+      width: 50,
+      dataIndex: "id",
+    },
+    {
+      title: "Name",
+      dataIndex: "fName",
+      width: 200,
+      render: (text, item) => (
+        <Avatar
+          src={(item.media && item.media.url) || null}
+          text={text}
+          id={item.id}
+        />
+      ),
+    },
+    {
+      title: "Email",
+      dataIndex: "email",
+    },
+    {
+      title: "Gender",
+      dataIndex: "gender",
+    },
+    {
+      title: "DOB",
+      dataIndex: "dob",
+    },
+    {
+      title: "Country",
+      dataIndex: "country",
+    },
+    {
+      title: "Action",
+      key: "action",
+      render: (text, item) => (
+        <>
+          <span>
+            <a
+              href="javascript:;"
+              // onClick={() => save(record.key)}
+              // style={{ marginRight: 8 }}
+            >
+              Edit
+            </a>
+            <Divider type="vertical" />
+            <Popconfirm
+              title="Sure to delete?"
+              // onConfirm={cancel}
+            >
+              <a style={{ color: "red" }}>Delete</a>
+            </Popconfirm>
+          </span>
+        </>
+      ),
+    },
+  ];
+  return (
+    <>
+      <h2>View Student</h2>
+      <Table
+        columns={columns}
+        data={sutdList}
+        // onSelectChange={setSelectedRowKeys}
+        // selectedRowKeys={selectedRowKeys}
+      />
+    </>
+  );
 };
