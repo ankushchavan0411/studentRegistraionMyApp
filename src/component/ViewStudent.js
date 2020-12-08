@@ -10,6 +10,10 @@ export const ViewStudent = () => {
   const { sutdList } = useSelector(({ Student }) => Student);
   const dispatch = useDispatch();
 
+  /**
+   * @author Ankush Chavan
+   * @description Here we have called api to get students
+   */
   useEffect(() => {
     dispatch(getStudents());
   }, []);

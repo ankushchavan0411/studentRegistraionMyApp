@@ -15,14 +15,11 @@ import {
 export const addStudent = (params) => {
   return (dispatch) => {
     dispatch(addStudentStart());
-    // return enterpriseUserService
-    //   .logoutUser(params)
-    //   .then((res) => {
-    //     dispatch(logoutSuccess(res.data));
-    //   })
-    //   .catch((err) => {
-    //     dispatch(logoutFail(errorHandler(err)));
-    //   });
+    try {
+      dispatch(addStudentSuccess());
+    } catch (error) {
+      dispatch(addStudentFail(error));
+    }
   };
 };
 
@@ -40,7 +37,7 @@ const addStudentFail = (error) => ({
 
 /**
  * @author Ankush Chavan
- * @description getStudents API is used to gets student
+ * @description getStudents API is used to get students
  */
 
 export const getStudents = () => {
