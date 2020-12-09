@@ -5,14 +5,11 @@ import Avatar from "./common/Avatar";
 import { Divider, Popconfirm } from "antd";
 import { useSelector, useDispatch } from "react-redux";
 import { getStudents } from "../redux/Action/Student";
-import * as Routes from "../lib/constants/routes";
-import { useHistory } from "react-router-dom";
 import { EditOutlined, DeleteOutlined } from "@ant-design/icons";
 
 export const ViewStudent = () => {
   const { sutdList } = useSelector(({ Student }) => Student);
   const dispatch = useDispatch();
-  const history = useHistory();
 
   /**
    * @author Ankush Chavan
@@ -34,7 +31,10 @@ export const ViewStudent = () => {
       width: 200,
       render: (text, item) => (
         <Avatar
-          src={(item.media && item.media.url) || null}
+          src={
+            (item.images && item.images.length > 0 && item.images[0].url) ||
+            null
+          }
           text={text}
           id={item.id}
         />
@@ -62,8 +62,7 @@ export const ViewStudent = () => {
       render: (text, item) => (
         <span>
           <a
-            href="javascript:;"
-            // onClick={() => save(item.id)}
+          // onClick={() => save(item.id)}
           >
             <EditOutlined />
           </a>
@@ -83,12 +82,7 @@ export const ViewStudent = () => {
   return (
     <>
       <h2>View Student</h2>
-      <Table
-        columns={columns}
-        data={sutdList}
-        // onSelectChange={setSelectedRowKeys}
-        // selectedRowKeys={selectedRowKeys}
-      />
+      <Table columns={columns} data={sutdList} />
     </>
   );
 };

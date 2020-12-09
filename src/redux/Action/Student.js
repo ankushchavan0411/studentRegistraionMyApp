@@ -22,7 +22,8 @@ export const addStudent = (params) => {
   return (dispatch) => {
     dispatch(addStudentStart());
     try {
-      dispatch(addStudentSuccess());
+      dispatch(addStudentSuccess("Added successfully"));
+      dispatch(getStudents(params));
     } catch (error) {
       dispatch(addStudentFail(error));
     }
@@ -46,10 +47,13 @@ const addStudentFail = (error) => ({
  * @description getStudents API is used to get students
  */
 
-export const getStudents = () => {
+export const getStudents = (payload) => {
   return (dispatch) => {
     dispatch(getStudentsStart());
     try {
+      if (payload) {
+        dataSource.push({ ...payload, id: dataSource.length + 1 });
+      }
       dispatch(getStudentsSuccess(dataSource));
     } catch (error) {
       dispatch(getStudentsFail(error));
@@ -130,15 +134,22 @@ const deleteStudentFail = (error) => ({
  * @description dataSource is used as a dummy data
  */
 
-const dataSource = [
+let dataSource = [
   {
     id: "1",
-    url: [],
+    images: [
+      {
+        name: "image.png",
+        status: "done",
+        url:
+          "https://zos.alipayobjects.com/rmsportal/jkjgkEfvpUPVyRjUImniVslZfWPnJuuZ.png",
+      },
+    ],
     fName: "Mike",
     mName: "",
     lName: "",
     email: "mike@gmail.com",
-    phone: "",
+    mobNo: "",
     gender: "Male",
     dob: "21/June/1999",
     address: "10 Downing Street",
@@ -146,12 +157,19 @@ const dataSource = [
   },
   {
     id: "2",
-    url: [],
+    images: [
+      {
+        name: "image.png",
+        status: "done",
+        url:
+          "https://zos.alipayobjects.com/rmsportal/jkjgkEfvpUPVyRjUImniVslZfWPnJuuZ.png",
+      },
+    ],
     fName: "Jhon",
     mName: "",
     lName: "",
     email: "jhon@gmail.com",
-    phone: "",
+    mobNo: "",
     gender: "Male",
     dob: "11/April/1990",
     address: "10 Downing Street",
