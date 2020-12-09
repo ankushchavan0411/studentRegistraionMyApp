@@ -1,15 +1,18 @@
 /* eslint-disable jsx-a11y/anchor-is-valid */
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import Table from "./common/Table";
 import Avatar from "./common/Avatar";
 import { Divider, Popconfirm } from "antd";
 import { useSelector, useDispatch } from "react-redux";
 import { getStudents } from "../redux/Action/Student";
 import { EditOutlined, DeleteOutlined } from "@ant-design/icons";
+import EditStudent from "./EditStudent";
 
 export const ViewStudent = () => {
   const { sutdList } = useSelector(({ Student }) => Student);
   const dispatch = useDispatch();
+  const [visible, setVisible] = useState(false);
+  const [editId, setEditId] = useState("");
 
   /**
    * @author Ankush Chavan
@@ -18,6 +21,15 @@ export const ViewStudent = () => {
   useEffect(() => {
     dispatch(getStudents());
   }, []);
+
+  /**
+   * @author Ankush Chavan
+   * @description handleEditOnChange is used to open edit modal
+   */
+  const handleEditOnChange = (id) => {
+    setVisible(true);
+    setEditId(id);
+  };
 
   const columns = [
     {
@@ -61,9 +73,7 @@ export const ViewStudent = () => {
       key: "action",
       render: (text, item) => (
         <span>
-          <a
-          // onClick={() => save(item.id)}
-          >
+          <a onClick={() => handleEditOnChange(item.id)}>
             <EditOutlined />
           </a>
           <Divider type="vertical" />
@@ -81,6 +91,7 @@ export const ViewStudent = () => {
   ];
   return (
     <>
+      <EditStudent visible={visible} setVisible={setVisible} editId={editId} />
       <h2>View Student</h2>
       <Table columns={columns} data={sutdList} />
     </>
