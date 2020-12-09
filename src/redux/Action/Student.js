@@ -5,6 +5,12 @@ import {
   VIEW_STUDENT_STARTED,
   VIEW_STUDENT_SUCCESS,
   VIEW_STUDENT_FAIL,
+  EDIT_STUDENT_STARTED,
+  EDIT_STUDENT_SUCCESS,
+  EDIT_STUDENT_FAIL,
+  DELETE_STUDENT_STARTED,
+  DELETE_STUDENT_SUCCESS,
+  DELETE_STUDENT_FAIL,
 } from "../../lib/constants/actionTypes";
 
 /**
@@ -44,7 +50,7 @@ export const getStudents = () => {
   return (dispatch) => {
     dispatch(getStudentsStart());
     try {
-      dispatch(getStudentsSuccess());
+      dispatch(getStudentsSuccess(dataSource));
     } catch (error) {
       dispatch(getStudentsFail(error));
     }
@@ -62,3 +68,93 @@ const getStudentsFail = (error) => ({
   type: VIEW_STUDENT_FAIL,
   payload: error,
 });
+
+/**
+ * @author Ankush Chavan
+ * @description editStudent API is used to edit record
+ */
+
+export const editStudent = () => {
+  return (dispatch) => {
+    dispatch(editStudentStart());
+    try {
+      dispatch(editStudentSuccess());
+    } catch (error) {
+      dispatch(editStudentFail(error));
+    }
+  };
+};
+
+const editStudentStart = () => ({
+  type: EDIT_STUDENT_STARTED,
+});
+const editStudentSuccess = (data) => ({
+  type: EDIT_STUDENT_SUCCESS,
+  payload: data,
+});
+const editStudentFail = (error) => ({
+  type: EDIT_STUDENT_FAIL,
+  payload: error,
+});
+
+/**
+ * @author Ankush Chavan
+ * @description deleteStudent API is used to delete record from list
+ */
+
+export const deleteStudent = () => {
+  return (dispatch) => {
+    dispatch(deleteStudentStart());
+    try {
+      dispatch(deleteStudentSuccess());
+    } catch (error) {
+      dispatch(deleteStudentFail(error));
+    }
+  };
+};
+
+const deleteStudentStart = () => ({
+  type: DELETE_STUDENT_STARTED,
+});
+const deleteStudentSuccess = (data) => ({
+  type: DELETE_STUDENT_SUCCESS,
+  payload: data,
+});
+const deleteStudentFail = (error) => ({
+  type: DELETE_STUDENT_FAIL,
+  payload: error,
+});
+
+/**
+ * @author Ankush Chavan
+ * @description dataSource is used as a dummy data
+ */
+
+const dataSource = [
+  {
+    id: "1",
+    url: [],
+    fName: "Mike",
+    mName: "",
+    lName: "",
+    email: "mike@gmail.com",
+    phone: "",
+    gender: "Male",
+    dob: "21/June/1999",
+    address: "10 Downing Street",
+    country: "USA",
+  },
+  {
+    id: "2",
+    url: [],
+    fName: "Jhon",
+    mName: "",
+    lName: "",
+    email: "jhon@gmail.com",
+    phone: "",
+    gender: "Male",
+    dob: "11/April/1990",
+    address: "10 Downing Street",
+    country: "Canada",
+  },
+];

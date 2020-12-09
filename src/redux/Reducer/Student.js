@@ -5,6 +5,12 @@ import {
   VIEW_STUDENT_STARTED,
   VIEW_STUDENT_SUCCESS,
   VIEW_STUDENT_FAIL,
+  EDIT_STUDENT_STARTED,
+  EDIT_STUDENT_SUCCESS,
+  EDIT_STUDENT_FAIL,
+  DELETE_STUDENT_STARTED,
+  DELETE_STUDENT_SUCCESS,
+  DELETE_STUDENT_FAIL,
 } from "../../lib/constants/actionTypes";
 
 /**
@@ -16,34 +22,7 @@ const initialState = {
   loading: false,
   error: null,
   success: null,
-  sutdList: [
-    {
-      id: "1",
-      url: [],
-      fName: "Mike",
-      mName: "",
-      lName: "",
-      email: "mike@gmail.com",
-      phone: "",
-      gender: "Male",
-      dob: "21/June/1999",
-      address: "10 Downing Street",
-      country: "USA",
-    },
-    {
-      id: "2",
-      url: [],
-      fName: "Jhon",
-      mName: "",
-      lName: "",
-      email: "jhon@gmail.com",
-      phone: "",
-      gender: "Male",
-      dob: "11/April/1990",
-      address: "10 Downing Street",
-      country: "Canada",
-    },
-  ],
+  sutdList: [],
 };
 
 export default function StudentReducer(state = initialState, action) {
@@ -78,7 +57,7 @@ export default function StudentReducer(state = initialState, action) {
         ...state,
         loading: false,
         error: null,
-        // sutdList: [],
+        sutdList: payload,
       };
     case VIEW_STUDENT_FAIL:
       return {
@@ -86,6 +65,44 @@ export default function StudentReducer(state = initialState, action) {
         loading: false,
         error: payload,
         sutdList: [],
+      };
+    case EDIT_STUDENT_STARTED:
+      return {
+        ...state,
+        loading: true,
+      };
+    case EDIT_STUDENT_SUCCESS:
+      return {
+        ...state,
+        loading: false,
+        error: null,
+        success: payload,
+      };
+    case EDIT_STUDENT_FAIL:
+      return {
+        ...state,
+        loading: false,
+        error: payload,
+        success: null,
+      };
+    case DELETE_STUDENT_STARTED:
+      return {
+        ...state,
+        loading: true,
+      };
+    case DELETE_STUDENT_SUCCESS:
+      return {
+        ...state,
+        loading: false,
+        error: null,
+        success: payload,
+      };
+    case DELETE_STUDENT_FAIL:
+      return {
+        ...state,
+        loading: false,
+        error: payload,
+        success: null,
       };
     default:
       return state;

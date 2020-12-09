@@ -5,10 +5,14 @@ import Avatar from "./common/Avatar";
 import { Divider, Popconfirm } from "antd";
 import { useSelector, useDispatch } from "react-redux";
 import { getStudents } from "../redux/Action/Student";
+import * as Routes from "../lib/constants/routes";
+import { useHistory } from "react-router-dom";
+import { EditOutlined, DeleteOutlined } from "@ant-design/icons";
 
 export const ViewStudent = () => {
   const { sutdList } = useSelector(({ Student }) => Student);
   const dispatch = useDispatch();
+  const history = useHistory();
 
   /**
    * @author Ankush Chavan
@@ -56,24 +60,23 @@ export const ViewStudent = () => {
       title: "Action",
       key: "action",
       render: (text, item) => (
-        <>
-          <span>
-            <a
-              href="javascript:;"
-              // onClick={() => save(record.key)}
-              // style={{ marginRight: 8 }}
-            >
-              Edit
+        <span>
+          <a
+            href="javascript:;"
+            // onClick={() => save(item.id)}
+          >
+            <EditOutlined />
+          </a>
+          <Divider type="vertical" />
+          <Popconfirm
+            title="Sure to delete?"
+            // onConfirm={cancel}
+          >
+            <a style={{ color: "red" }}>
+              <DeleteOutlined />
             </a>
-            <Divider type="vertical" />
-            <Popconfirm
-              title="Sure to delete?"
-              // onConfirm={cancel}
-            >
-              <a style={{ color: "red" }}>Delete</a>
-            </Popconfirm>
-          </span>
-        </>
+          </Popconfirm>
+        </span>
       ),
     },
   ];

@@ -1,5 +1,6 @@
 import React from "react";
+import AddEditForm from "./AddEditForm";
 
-const AddStudent = () => <div>Add Student</div>;
+const AddStudent = () => <AddEditForm heading={"Add Student"} />;
 
 export default AddStudent;
