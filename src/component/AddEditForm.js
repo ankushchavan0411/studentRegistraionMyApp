@@ -33,7 +33,7 @@ const validateMessages = {
 };
 const prefixSelector = (
   <Form.Item name="prefix" noStyle>
-    <Select style={{ width: 70 }} defaultValue="91">
+    <Select style={{ width: 70 }} initialeValue="91">
       <Option value="91">+91</Option>
       <Option value="87">+87</Option>
       <Option value="92">+92</Option>
@@ -44,7 +44,7 @@ const AddEditForm = ({ heading }) => {
   const dispatch = useDispatch();
 
   const onFinish = (values) => {
-    dispatch(addStudent({ ...values.user, images: images }));
+    dispatch(addStudent({ ...values.user, images }));
   };
 
   const [images, setImages] = useState([]);
