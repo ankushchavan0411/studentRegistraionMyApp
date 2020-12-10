@@ -44,6 +44,7 @@ export default function StudentReducer(state = initialState, action) {
         loading: false,
         error: null,
         success: "Added succesfully",
+        status: payload.status,
       };
     case ADD_STUDENT_FAIL:
       return {

@@ -1,15 +1,41 @@
 import React, { useEffect, useState } from "react";
-import { Form, Input, Select, Button, Row, Col, Radio, DatePicker } from "antd";
+import {
+  Form,
+  Input,
+  Select,
+  Button,
+  Row,
+  Col,
+  Radio,
+  DatePicker,
+  message,
+  Spin,
+} from "antd";
 import Upload from "../component/common/Upload";
 import { useSelector, useDispatch } from "react-redux";
 import { addStudent, getStudent } from "../redux/Action/Student";
+import { useHistory } from "react-router-dom";
+import * as Routes from "../lib/constants/routes";
 
 const { Option } = Select;
 
 const AddEditForm = ({ heading, editId }) => {
   const [images, setImages] = useState([]);
   const dispatch = useDispatch();
-  const { student = {} } = useSelector(({ Student }) => Student);
+  const history = useHistory();
+
+  const { student = {}, success, status, loading } = useSelector(
+    ({ Student }) => Student
+  );
+
+  if (success && status === "success") {
+    message.success(success);
+    setTimeout(() => {
+      history.push({
+        pathname: Routes.VIEW_STUDENT,
+      });
+    }, 1000);
+  }
 
   /**
    * @author Ankush Chavan
@@ -65,72 +91,74 @@ const AddEditForm = ({ heading, editId }) => {
   return (
     <>
       <h2>{heading}</h2>
-      <Row>
-        <Col xl={15} lg={15} md={12} sm={24} xs={24}>
-          <Form
-            {...layout}
-            name="nest-messages"
-            onFinish={onFinish}
-            validateMessages={validateMessages}
-          >
-            <Form.Item
-              name={["user", "fName"]}
-              label="First Name"
-              rules={[{ required: true }]}
+      <Spin spinning={loading}>
+        <Row>
+          <Col xl={15} lg={15} md={12} sm={24} xs={24}>
+            <Form
+              {...layout}
+              name="nest-messages"
+              onFinish={onFinish}
+              validateMessages={validateMessages}
             >
-              <Input />
-            </Form.Item>
-            <Form.Item name={["user", "mName"]} label="Middle Name">
-              <Input />
-            </Form.Item>
-            <Form.Item name={["user", "lName"]} label="Last Name">
-              <Input />
-            </Form.Item>
-            <Form.Item
-              name={["user", "email"]}
-              label="Email"
-              rules={[{ required: true, type: "email" }]}
-            >
-              <Input />
-            </Form.Item>
-            <Form.Item name={["user", "address"]} label="Address">
-              <Input.TextArea />
-            </Form.Item>
-            <Form.Item name={["user", "mobNo"]} label="Mobile no">
-              <Input addonBefore={prefixSelector} style={{ width: "100%" }} />
-            </Form.Item>
-            <Form.Item name={["user", "gender"]} label="Gender">
-              <Radio.Group>
-                <Radio value="Male">Male</Radio>
-                <Radio value="Female">Female</Radio>
-                <Radio value="Other">Other</Radio>
-              </Radio.Group>
-            </Form.Item>
-            <Form.Item name={["user", "dob"]} label="DOB">
-              <DatePicker style={{ width: "100%" }} />
-            </Form.Item>
-            <Form.Item name={["user", "country"]} label="Country">
-              <Select>
-                {countryList.map((item) => (
-                  <Option value={item} key={item}>
-                    {item}
-                  </Option>
-                ))}
-              </Select>
-            </Form.Item>
-            <Form.Item wrapperCol={{ ...layout.wrapperCol, offset: 8 }}>
-              <Button type="primary" htmlType="submit">
-                Submit
-              </Button>
-            </Form.Item>
-          </Form>
-        </Col>
-        <Col xl={9} lg={9} md={12} sm={24} xs={24}>
-          <div className="upload_container">
-            <Upload handleImageUpload={(list) => setImages(list)} />
-          </div>
-        </Col>
-      </Row>
+              <Form.Item
+                name={["user", "fName"]}
+                label="First Name"
+                rules={[{ required: true }]}
+              >
+                <Input />
+              </Form.Item>
+              <Form.Item name={["user", "mName"]} label="Middle Name">
+                <Input />
+              </Form.Item>
+              <Form.Item name={["user", "lName"]} label="Last Name">
+                <Input />
+              </Form.Item>
+              <Form.Item
+                name={["user", "email"]}
+                label="Email"
+                rules={[{ required: true, type: "email" }]}
+              >
+                <Input />
+              </Form.Item>
+              <Form.Item name={["user", "address"]} label="Address">
+                <Input.TextArea />
+              </Form.Item>
+              <Form.Item name={["user", "mobNo"]} label="Mobile no">
+                <Input addonBefore={prefixSelector} style={{ width: "100%" }} />
+              </Form.Item>
+              <Form.Item name={["user", "gender"]} label="Gender">
+                <Radio.Group>
+                  <Radio value="Male">Male</Radio>
+                  <Radio value="Female">Female</Radio>
+                  <Radio value="Other">Other</Radio>
+                </Radio.Group>
+              </Form.Item>
+              <Form.Item name={["user", "dob"]} label="DOB">
+                <DatePicker style={{ width: "100%" }} />
+              </Form.Item>
+              <Form.Item name={["user", "country"]} label="Country">
+                <Select>
+                  {countryList.map((item) => (
+                    <Option value={item} key={item}>
+                      {item}
+                    </Option>
+                  ))}
+                </Select>
+              </Form.Item>
+              <Form.Item wrapperCol={{ ...layout.wrapperCol, offset: 8 }}>
+                <Button type="primary" htmlType="submit">
+                  Submit
+                </Button>
+              </Form.Item>
+            </Form>
+          </Col>
+          <Col xl={9} lg={9} md={12} sm={24} xs={24}>
+            <div className="upload_container">
+              <Upload handleImageUpload={(list) => setImages(list)} />
+            </div>
+          </Col>
+        </Row>
+      </Spin>
     </>
   );
 };

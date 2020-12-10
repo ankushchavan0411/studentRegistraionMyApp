@@ -24,15 +24,20 @@ import {
 export const addStudent = (params) => {
   return (dispatch) => {
     dispatch(addStudentStart());
-    try {
-      if (params) {
-        dataSource.push({ ...params, id: dataSource.length + 1 });
+    setTimeout(() => {
+      try {
+        if (params) {
+          dataSource.push({ ...params, id: dataSource.length + 1 });
+        }
+        dispatch(getStudents());
+        dispatch(addStudentSuccess({ status: "success" }));
+        setTimeout(() => {
+          dispatch(addStudentSuccess({ status: null }));
+        }, 100);
+      } catch (error) {
+        dispatch(addStudentFail(error));
       }
-      dispatch(addStudentSuccess());
-      dispatch(getStudents());
-    } catch (error) {
-      dispatch(addStudentFail(error));
-    }
+    }, 1000);
   };
 };
 
