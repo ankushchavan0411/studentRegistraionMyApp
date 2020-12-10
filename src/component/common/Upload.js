@@ -7,11 +7,11 @@ const ImageUpload = ({ handleImageUpload, images }) => {
   const [previewImage, setPreviewImage] = useState("");
   const [previewTitle, setPreviewTitle] = useState("");
 
-  const [fileList, setFileList] = useState(images);
+  const [fileList, setFileList] = useState([]);
 
-  useEffect(() => {
-    setFileList(images || []);
-  }, [images]);
+  // useEffect(() => {
+  //   setFileList(images || []);
+  // }, [images]);
 
   const onChange = ({ fileList: newFileList }) => {
     setFileList(newFileList);

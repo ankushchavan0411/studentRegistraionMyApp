@@ -5,7 +5,6 @@ import {
   Select,
   Button,
   Row,
-  
   Col,
   Radio,
   DatePicker,
@@ -21,37 +20,13 @@ import * as Routes from "../lib/constants/routes";
 const { Option } = Select;
 
 const AddEditForm = ({ heading, editId }) => {
-  const [image, setImages] = useState([]);
+  const [images, setImages] = useState([]);
   const dispatch = useDispatch();
   const history = useHistory();
-  const [form] = Form.useForm();
-  const { student, success, status, loading } = useSelector(
+
+  const { student = {}, success, status, loading } = useSelector(
     ({ Student }) => Student
   );
-  const {
-    address = "",
-    images = [],
-    country = "",
-    dob = "",
-    email = "",
-    fName = "",
-    mName = "",
-    lName = "",
-    gender = "",
-  } = student || {};
-  useEffect(() => {
-    setImages(images);
-    form.setFieldsValue({
-      address,
-      country,
-      dob,
-      email,
-      fName,
-      mName,
-      lName,
-      gender,
-    });
-  }, [address, country, dob, email, fName, mName, lName, gender, images]);
 
   if (success && status === "success") {
     message.success(success);
@@ -67,7 +42,7 @@ const AddEditForm = ({ heading, editId }) => {
    * @description onFinish is used to submit data
    */
   const onFinish = (values) => {
-    dispatch(addStudent({ ...values.user, images: image }));
+    dispatch(addStudent({ ...values.user, images }));
   };
 
   /**
@@ -121,11 +96,9 @@ const AddEditForm = ({ heading, editId }) => {
           <Col xl={15} lg={15} md={12} sm={24} xs={24}>
             <Form
               {...layout}
-              // name="nest-messages"
+              name="nest-messages"
               onFinish={onFinish}
               validateMessages={validateMessages}
-              form={form}
-              name="control-hooks"
             >
               <Form.Item
                 name={["user", "fName"]}
@@ -181,10 +154,7 @@ const AddEditForm = ({ heading, editId }) => {
           </Col>
           <Col xl={9} lg={9} md={12} sm={24} xs={24}>
             <div className="upload_container">
-              <Upload
-                handleImageUpload={(list) => setImages(list)}
-                images={image}
-              />
+              <Upload handleImageUpload={(list) => setImages(list)} />
             </div>
           </Col>
         </Row>
