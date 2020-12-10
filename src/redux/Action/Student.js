@@ -25,8 +25,11 @@ export const addStudent = (params) => {
   return (dispatch) => {
     dispatch(addStudentStart());
     try {
-      dispatch(addStudentSuccess("Added succesfully"));
-      dispatch(getStudents(params));
+      if (params) {
+        dataSource.push({ ...params, id: dataSource.length + 1 });
+      }
+      dispatch(addStudentSuccess(dataSource));
+      dispatch(getStudents());
     } catch (error) {
       dispatch(addStudentFail(error));
     }
@@ -50,13 +53,10 @@ const addStudentFail = (error) => ({
  * @description getStudents API is used to get students
  */
 
-export const getStudents = (payload) => {
+export const getStudents = () => {
   return (dispatch) => {
     dispatch(getStudentsStart());
     try {
-      if (payload) {
-        dataSource.push({ ...payload, id: dataSource.length + 1 });
-      }
       dispatch(getStudentsSuccess(dataSource));
     } catch (error) {
       dispatch(getStudentsFail(error));
@@ -114,8 +114,8 @@ export const deleteStudent = (id) => {
     dispatch(deleteStudentStart());
     try {
       dataSource = dataSource.filter((item) => item.id !== id);
-      console.log("dataSource", dataSource);
       dispatch(deleteStudentSuccess(dataSource));
+      dispatch(getStudents());
     } catch (error) {
       dispatch(deleteStudentFail(error));
     }

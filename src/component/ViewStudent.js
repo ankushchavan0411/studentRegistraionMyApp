@@ -15,7 +15,6 @@ export const ViewStudent = () => {
   const [visible, setVisible] = useState(false);
   const [editId, setEditId] = useState("");
 
-  console.log("sutdList", sutdList);
   /**
    * @author Ankush Chavan
    * @description Here we have called api to get students

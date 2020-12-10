@@ -31,7 +31,6 @@ const initialState = {
 
 export default function StudentReducer(state = initialState, action) {
   const { payload, type } = action;
-  console.log("payload", payload);
   switch (type) {
     case ADD_STUDENT_STARTED:
       return {
@@ -43,11 +42,8 @@ export default function StudentReducer(state = initialState, action) {
         ...state,
         loading: false,
         error: null,
-        success: payload,
-        // sutdList: state.sutdList.push({
-        //   ...payload,
-        //   id: state.sutdList.length + 1,
-        // }),
+        success: "Added succesfully",
+        sutdList: payload,
       };
     case ADD_STUDENT_FAIL:
       return {
