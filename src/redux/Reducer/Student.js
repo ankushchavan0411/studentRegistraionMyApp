@@ -24,6 +24,7 @@ import {
 const initialState = {
   loading: false,
   error: null,
+  status: null,
   success: null,
   sutdList: [],
   student: {},
@@ -43,7 +44,6 @@ export default function StudentReducer(state = initialState, action) {
         loading: false,
         error: null,
         success: "Added succesfully",
-        sutdList: payload,
       };
     case ADD_STUDENT_FAIL:
       return {
@@ -101,7 +101,7 @@ export default function StudentReducer(state = initialState, action) {
         loading: false,
         error: null,
         success: "Delete successfully",
-        studList: payload,
+        status: payload.status,
       };
     case DELETE_STUDENT_FAIL:
       return {
@@ -109,6 +109,7 @@ export default function StudentReducer(state = initialState, action) {
         loading: false,
         error: payload,
         success: null,
+        status: "error",
       };
     case GET_STUDENT_STARTED:
       return {

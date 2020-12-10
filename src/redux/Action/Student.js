@@ -28,7 +28,7 @@ export const addStudent = (params) => {
       if (params) {
         dataSource.push({ ...params, id: dataSource.length + 1 });
       }
-      dispatch(addStudentSuccess(dataSource));
+      dispatch(addStudentSuccess());
       dispatch(getStudents());
     } catch (error) {
       dispatch(addStudentFail(error));
@@ -112,13 +112,18 @@ const editStudentFail = (error) => ({
 export const deleteStudent = (id) => {
   return (dispatch) => {
     dispatch(deleteStudentStart());
-    try {
-      dataSource = dataSource.filter((item) => item.id !== id);
-      dispatch(deleteStudentSuccess(dataSource));
-      dispatch(getStudents());
-    } catch (error) {
-      dispatch(deleteStudentFail(error));
-    }
+    setTimeout(() => {
+      try {
+        dataSource = dataSource.filter((item) => item.id !== id);
+        dispatch(getStudents());
+        dispatch(deleteStudentSuccess({ status: "success" }));
+        setTimeout(() => {
+          dispatch(deleteStudentSuccess({ status: null }));
+        }, 100);
+      } catch (error) {
+        dispatch(deleteStudentFail(error));
+      }
+    }, 1000);
   };
 };
 

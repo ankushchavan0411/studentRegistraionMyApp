@@ -2,7 +2,7 @@
 import React, { useEffect, useState } from "react";
 import Table from "./common/Table";
 import Avatar from "./common/Avatar";
-import { Divider, Popconfirm } from "antd";
+import { Divider, Popconfirm, message } from "antd";
 import { useSelector, useDispatch } from "react-redux";
 import { getStudents } from "../redux/Action/Student";
 import { EditOutlined, DeleteOutlined } from "@ant-design/icons";
@@ -10,11 +10,15 @@ import EditStudent from "./EditStudent";
 import { deleteStudent } from "../redux/Action/Student";
 
 export const ViewStudent = () => {
-  const { sutdList } = useSelector(({ Student }) => Student);
+  const { sutdList, loading, success, status } = useSelector(
+    ({ Student }) => Student
+  );
   const dispatch = useDispatch();
   const [visible, setVisible] = useState(false);
   const [editId, setEditId] = useState("");
-
+  if (success && status === "success") {
+    message.success(success);
+  }
   /**
    * @author Ankush Chavan
    * @description Here we have called api to get students
@@ -94,7 +98,7 @@ export const ViewStudent = () => {
     <>
       <EditStudent visible={visible} setVisible={setVisible} editId={editId} />
       <h2>View Student</h2>
-      <Table columns={columns} data={sutdList} />
+      <Table columns={columns} data={sutdList} loading={loading} />
     </>
   );
 };
