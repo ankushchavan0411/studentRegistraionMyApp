@@ -1,53 +1,67 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Form, Input, Select, Button, Row, Col, Radio, DatePicker } from "antd";
 import Upload from "../component/common/Upload";
 import { useSelector, useDispatch } from "react-redux";
-import { addStudent } from "../redux/Action/Student";
+import { addStudent, getStudent } from "../redux/Action/Student";
 
 const { Option } = Select;
 
-const countryList = [
-  "India",
-  "USA",
-  "Canada",
-  "Russia",
-  "Japan",
-  "Germany",
-  "France",
-  "Switzerland",
-  "Australia",
-];
-const layout = {
-  labelCol: { span: 4 },
-  wrapperCol: { span: 20 },
-};
-const validateMessages = {
-  required: "${label} is required!",
-  types: {
-    email: "${label} is not a valid email!",
-    number: "${label} is not a valid number!",
-  },
-  number: {
-    range: "${label} must be between ${min} and ${max}",
-  },
-};
-const prefixSelector = (
-  <Form.Item name="prefix" noStyle>
-    <Select style={{ width: 70 }} initialeValue="91">
-      <Option value="91">+91</Option>
-      <Option value="87">+87</Option>
-      <Option value="92">+92</Option>
-    </Select>
-  </Form.Item>
-);
-const AddEditForm = ({ heading }) => {
+const AddEditForm = ({ heading, editId }) => {
+  const [images, setImages] = useState([]);
   const dispatch = useDispatch();
+  const { student = {} } = useSelector(({ Student }) => Student);
 
+  /**
+   * @author Ankush Chavan
+   * @description onFinish is used to submit data
+   */
   const onFinish = (values) => {
     dispatch(addStudent({ ...values.user, images }));
   };
 
-  const [images, setImages] = useState([]);
+  /**
+   * @author Ankush Chavan
+   * @description Here we have called api to get student by id
+   */
+
+  useEffect(() => {
+    dispatch(getStudent(editId));
+  }, [editId]);
+
+  const layout = {
+    labelCol: { span: 4 },
+    wrapperCol: { span: 20 },
+  };
+  const validateMessages = {
+    required: "${label} is required!",
+    types: {
+      email: "${label} is not a valid email!",
+      number: "${label} is not a valid number!",
+    },
+    number: {
+      range: "${label} must be between ${min} and ${max}",
+    },
+  };
+  const prefixSelector = (
+    <Form.Item name="prefix" noStyle>
+      <Select style={{ width: 70 }} defaultValue="91">
+        <Option value="91">+91</Option>
+        <Option value="87">+87</Option>
+        <Option value="92">+92</Option>
+      </Select>
+    </Form.Item>
+  );
+  const countryList = [
+    "India",
+    "USA",
+    "Canada",
+    "Russia",
+    "Japan",
+    "Germany",
+    "France",
+    "Switzerland",
+    "Australia",
+  ];
   return (
     <>
       <h2>{heading}</h2>

@@ -11,6 +11,9 @@ import {
   DELETE_STUDENT_STARTED,
   DELETE_STUDENT_SUCCESS,
   DELETE_STUDENT_FAIL,
+  GET_STUDENT_STARTED,
+  GET_STUDENT_SUCCESS,
+  GET_STUDENT_FAIL,
 } from "../../lib/constants/actionTypes";
 
 /**
@@ -23,10 +26,12 @@ const initialState = {
   error: null,
   success: null,
   sutdList: [],
+  student: {},
 };
 
 export default function StudentReducer(state = initialState, action) {
   const { payload, type } = action;
+  console.log("payload", payload);
   switch (type) {
     case ADD_STUDENT_STARTED:
       return {
@@ -39,6 +44,10 @@ export default function StudentReducer(state = initialState, action) {
         loading: false,
         error: null,
         success: payload,
+        // sutdList: state.sutdList.push({
+        //   ...payload,
+        //   id: state.sutdList.length + 1,
+        // }),
       };
     case ADD_STUDENT_FAIL:
       return {
@@ -95,7 +104,8 @@ export default function StudentReducer(state = initialState, action) {
         ...state,
         loading: false,
         error: null,
-        success: payload,
+        success: "Delete successfully",
+        studList: payload,
       };
     case DELETE_STUDENT_FAIL:
       return {
@@ -103,6 +113,25 @@ export default function StudentReducer(state = initialState, action) {
         loading: false,
         error: payload,
         success: null,
+      };
+    case GET_STUDENT_STARTED:
+      return {
+        ...state,
+        loading: true,
+      };
+    case GET_STUDENT_SUCCESS:
+      return {
+        ...state,
+        loading: false,
+        error: null,
+        student: payload,
+      };
+    case GET_STUDENT_FAIL:
+      return {
+        ...state,
+        loading: false,
+        error: payload,
+        student: {},
       };
     default:
       return state;

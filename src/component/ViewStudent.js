@@ -7,6 +7,7 @@ import { useSelector, useDispatch } from "react-redux";
 import { getStudents } from "../redux/Action/Student";
 import { EditOutlined, DeleteOutlined } from "@ant-design/icons";
 import EditStudent from "./EditStudent";
+import { deleteStudent } from "../redux/Action/Student";
 
 export const ViewStudent = () => {
   const { sutdList } = useSelector(({ Student }) => Student);
@@ -14,6 +15,7 @@ export const ViewStudent = () => {
   const [visible, setVisible] = useState(false);
   const [editId, setEditId] = useState("");
 
+  console.log("sutdList", sutdList);
   /**
    * @author Ankush Chavan
    * @description Here we have called api to get students
@@ -79,7 +81,7 @@ export const ViewStudent = () => {
           <Divider type="vertical" />
           <Popconfirm
             title="Sure to delete?"
-            // onConfirm={cancel}
+            onConfirm={() => dispatch(deleteStudent(item.id))}
           >
             <a style={{ color: "red" }}>
               <DeleteOutlined />

@@ -11,6 +11,9 @@ import {
   DELETE_STUDENT_STARTED,
   DELETE_STUDENT_SUCCESS,
   DELETE_STUDENT_FAIL,
+  GET_STUDENT_STARTED,
+  GET_STUDENT_SUCCESS,
+  GET_STUDENT_FAIL,
 } from "../../lib/constants/actionTypes";
 
 /**
@@ -22,7 +25,7 @@ export const addStudent = (params) => {
   return (dispatch) => {
     dispatch(addStudentStart());
     try {
-      dispatch(addStudentSuccess("Added successfully"));
+      dispatch(addStudentSuccess("Added succesfully"));
       dispatch(getStudents(params));
     } catch (error) {
       dispatch(addStudentFail(error));
@@ -106,11 +109,13 @@ const editStudentFail = (error) => ({
  * @description deleteStudent API is used to delete record from list
  */
 
-export const deleteStudent = () => {
+export const deleteStudent = (id) => {
   return (dispatch) => {
     dispatch(deleteStudentStart());
     try {
-      dispatch(deleteStudentSuccess());
+      dataSource = dataSource.filter((item) => item.id !== id);
+      console.log("dataSource", dataSource);
+      dispatch(deleteStudentSuccess(dataSource));
     } catch (error) {
       dispatch(deleteStudentFail(error));
     }
@@ -126,6 +131,34 @@ const deleteStudentSuccess = (data) => ({
 });
 const deleteStudentFail = (error) => ({
   type: DELETE_STUDENT_FAIL,
+  payload: error,
+});
+
+/**
+ * @author Ankush Chavan
+ * @description getStudent API is used to get record from list
+ */
+
+export const getStudent = (id) => {
+  return (dispatch) => {
+    dispatch(getStudentStart());
+    try {
+      dispatch(getStudentSuccess());
+    } catch (error) {
+      dispatch(getStudentFail(error));
+    }
+  };
+};
+
+const getStudentStart = () => ({
+  type: GET_STUDENT_STARTED,
+});
+const getStudentSuccess = (data) => ({
+  type: GET_STUDENT_SUCCESS,
+  payload: data,
+});
+const getStudentFail = (error) => ({
+  type: GET_STUDENT_FAIL,
   payload: error,
 });
 
