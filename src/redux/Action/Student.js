@@ -153,7 +153,8 @@ export const getStudent = (id) => {
   return (dispatch) => {
     dispatch(getStudentStart());
     try {
-      dispatch(getStudentSuccess());
+      const student = dataSource.filter((item) => item.id === id);
+      dispatch(getStudentSuccess(student[0]));
     } catch (error) {
       dispatch(getStudentFail(error));
     }

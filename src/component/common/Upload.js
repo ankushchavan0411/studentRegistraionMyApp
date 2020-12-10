@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Upload, Modal } from "antd";
 import ImgCrop from "antd-img-crop";
 
@@ -7,7 +7,11 @@ const ImageUpload = ({ handleImageUpload, images }) => {
   const [previewImage, setPreviewImage] = useState("");
   const [previewTitle, setPreviewTitle] = useState("");
 
-  const [fileList, setFileList] = useState([]);
+  const [fileList, setFileList] = useState(images);
+
+  useEffect(() => {
+    setFileList(images || []);
+  }, [images]);
 
   const onChange = ({ fileList: newFileList }) => {
     setFileList(newFileList);
